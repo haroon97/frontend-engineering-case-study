@@ -10,7 +10,9 @@ export const UserDetails = () => {
 
   const { users } = useContext(UserDetailsContext);
 
-  const user = useRef(localStorage.getItem("userDetails") || "");
+  const user = useRef(users.filter((user) => user.login.uuid === params.id));
+
+  const { email, location, dob } = user.current[0];
 
   useEffect(() => {
     const selectedUser = users.find((user) => user.login.uuid === params.id);
@@ -19,7 +21,7 @@ export const UserDetails = () => {
     }
   }, [params.id, users]);
 
-  const { email, location, dob } = JSON.parse(user.current);
+  
 
   return (
     <Box
