@@ -1,7 +1,7 @@
 # frontend-engineering-case-study
 
 # Brief description
-This React app utilises the random users API (https://randomuser.me/) to display a list of users on the home page. I have used React Query for API integration, Context API for state management, React Router for routing and Material UI for the UI. It has a details page as well on which you can see details about a specific user like their dob, email etc.It has proper error handling for the API and internet connection checks. The project uses TypeScript and is scaffolded using Vite.
+This React app utilises the random users API (https://randomuser.me/) to display a list of users on the home page. I have used React Query for API integration, Context API for state management, React Router for routing and Material UI for the UI. It has a details page as well on which you can see details about a specific user like their dob, email etc.It has proper error handling for the API and internet connection checks. The project uses TypeScript and is scaffolded using Vite (https://vitejs.dev/).
 
 # Instructions
 1) Clone the project into your computer.
