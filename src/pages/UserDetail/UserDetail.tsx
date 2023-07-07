@@ -1,8 +1,9 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Typography, useTheme } from "@mui/material";
 import { Header } from "../../components/Header";
 import { UserDetailsContext } from "../../context/user-details.context";
+import { User } from "../../context/user-details.context.types";
 
 export const UserDetails = () => {
   const theme = useTheme();
@@ -10,18 +11,21 @@ export const UserDetails = () => {
 
   const { users } = useContext(UserDetailsContext);
 
-  const user = useRef(users.filter((user) => user.login.uuid === params.id));
-
-  const { email, location, dob } = user.current[0];
+  const [user, setUser] = useState<User | undefined>();
 
   useEffect(() => {
     const selectedUser = users.find((user) => user.login.uuid === params.id);
-    if (selectedUser) {
+    const isPresentInLocalStorage = localStorage.getItem("user") !== null;
+
+    if (isPresentInLocalStorage) {
+      const storedUser = localStorage.getItem("user");
+      const parsedUser = JSON.parse(storedUser as string);
+      setUser(parsedUser);
+    } else {
       localStorage.setItem("user", JSON.stringify(selectedUser));
+      setUser(selectedUser);
     }
   }, [params.id, users]);
-
-  
 
   return (
     <Box
@@ -50,7 +54,7 @@ export const UserDetails = () => {
               Email
             </Typography>
             <Typography variant="bodyMedium" color={theme.colors.highEmphasis}>
-              {email}
+              {user?.email}
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column" mt={3}>
@@ -61,7 +65,7 @@ export const UserDetails = () => {
               Country
             </Typography>
             <Typography variant="bodyMedium" color={theme.colors.highEmphasis}>
-              {location.country}
+              {user?.location.country}
             </Typography>
           </Box>
           <Box display="flex" flexDirection="column" mt={3}>
@@ -72,7 +76,7 @@ export const UserDetails = () => {
               Address
             </Typography>
             <Typography variant="bodyMedium" color={theme.colors.highEmphasis}>
-              {`${location.street.number}, ${location.street.name}`}
+              {`${user?.location.street.number}, ${user?.location.street.name}`}
             </Typography>
           </Box>
 
@@ -81,10 +85,10 @@ export const UserDetails = () => {
               variant="bodyMediumBold"
               color={theme.colors.highEmphasis}
             >
-              Date of birth / Age
+              Age
             </Typography>
             <Typography variant="bodyMedium" color={theme.colors.highEmphasis}>
-              {`${new Date(dob.date).toDateString()} / ${dob.age}`}
+              {user?.dob.age}
             </Typography>
           </Box>
         </Box>

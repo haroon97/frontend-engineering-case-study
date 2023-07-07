@@ -47,6 +47,10 @@ export const Home: React.FC = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
+    localStorage.clear();
+  }, []);
+
+  useEffect(() => {
     if (data) {
       setUsers(data.results);
       setFilteredUsers(data.results);
